@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>𝗠𝗬 𝗕𝗢𝗢𝗞𝗠𝗔𝗥𝗞𝗦 · edit-only favicon field</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ----- styles updated - removed random border colors ----- */
+        * {
+            margin: 0;
+            pEnter website titleing: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            height: 100vh;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            height: 100vh;
+            max-height: 100vh;
+            margin: 0 auto;
+            background: white;
+            border-radius: 0;
+            padding: 20px;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        h1 i {
+            color: #667eea;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #555;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .input-group input {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* Favicon hint only visible when group is visible */
+        .favicon-hint {
+            font-size: 11px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            flex: 1;
+        }
+
+        .cancel-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            display: none;
+        }
+
+        .cancel-btn:active, .add-btn:active {
+            transform: scale(0.98);
+        }
+
+        .cancel-btn:disabled, .Enter website title-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .search-section {
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 15px;
+            z-index: 1;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-stats {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #666;
+            text-align: left;
+        }
+
+        .search-match {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .bookmarks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .bookmarks-header h2 {
+            color: #333;
+            font-size: 18px;
+        }
+
+        .bookmarks-count {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .bookmarks-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            min-height: 0;
+            border-radius: 10px;
+            background: #f8f9fa;
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+
+        .bookmarks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .bookmarks-wrapper::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .bookmarks-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .bookmarks-wrapper::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        .bookmarks-wrapper {
+            scrollbar-width: thin;
+            scrollbar-color: #c1c1c1 #f1f1f1;
+        }
+
+        .bookmark-item {
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            animation: slideIn 0.3s ease;
+            border: 2px solid #000000;  /* Consistent light gray border */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .bookmark-item.editing {
+            border-color: #667eea !important;  /* Purple border when editing */
+            background: #f0f3ff;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bookmark-item:active { background: #f0f0f0; }
+
+        .favicon {
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            border-radius: 6px;
+            overflow: hidden;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .favicon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .favicon i {
+            font-size: 16px;
+            color: #667eea;
+        }
+
+        .bookmark-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .bookmark-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .bookmark-title mark {
+            background: #ffd700;
+            color: #333;
+            padding: 1px 0;
+            border-radius: 2px;
+        }
+
+        .bookmark-url {
+            color: #666;
+            font-size: 11px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .bookmark-url mark {
+            background: #ffd700;
+            color: #333;
+            padding: 1px 0;
+            border-radius: 2px;
+        }
+
+        .bookmark-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .bookmark-actions button {
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+
+        .edit-btn { color: #f39c12; }
+        .visit-btn { color: #667eea; }
+        .delete-btn { color: #ff4757; }
+        .save-btn { color: #00b894; }
+
+        .bookmark-actions button:active { background: rgba(0,0,0,0.05); }
+        .bookmark-actions button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+            background: white;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .empty-state i {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: #e0e0e0;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 13px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .notification.show { display: block; animation: fadeInOut 3s ease; }
+        .notification.error { background: #ff4757; }
+        .notification.success { background: #00b894; }
+        .notification.info { background: #3498db; }
+
+        @keyframes fadeInOut {
+            0%,100%{opacity:0}10%,90%{opacity:1}
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .rules-fix-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+            display: none;
+            flex-shrink: 0;
+        }
+
+        .rules-fix-box.show { display: block; }
+
+        .rules-fix-box h3 {
+            color: #856404;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .rules-fix-box pre {
+            background: #fff;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            overflow-x: auto;
+            margin: 8px 0;
+            border: 1px solid #ffeeba;
+        }
+
+        .rules-fix-box button {
+            background: #ffc107;
+            color: #856404;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .scroll-indicator {
+            text-align: center;
+            font-size: 11px;
+            color: #999;
+            margin-top: 3px;
+            display: none;
+            flex-shrink: 0;
+        }
+
+        .scroll-indicator.show { display: block; }
+        .scroll-indicator i {
+            animation: bounce 1s infinite;
+            font-size: 10px;
+        }
+        @keyframes bounce { 0%,100%{transform:translateY(0)}50%{transform:translateY(3px)} }
+
+        @media (max-width: 600px) {
+            body { background: white; }
+            .container { padding: 15px; border-radius: 0; max-width: 100%; }
+            .bookmark-actions button { padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <i class="fas fa-bookmark"></i>
+            𝗠𝗬 𝗕𝗢𝗢𝗞𝗠𝗔𝗥𝗞𝗦
+        </h1>
+        <div class="subtitle">
+            <i class="fa-brands fa-hackerrank"></i> 𝙽𝙰𝙳𝙸𝙼 𝙺𝙷𝙰𝙽 𝙽-𝙷𝙰𝙲𝙺𝙴𝚁 ||🇮🇳
+        </div>
+
+        <!-- Rules Fix Box -->
+        <div class="rules-fix-box" id="rulesFixBox">
+            <h3><i class="fas fa-exclamation-triangle"></i> Database Permission Error</h3>
+            <p>Firebase database rules sahi nahi hain. Ye rules copy karke Firebase Console mein paste karein:</p>
+            <pre id="rulesText">{
+  "rules": {
+    ".read": true,
+    ".write": true,
+    "bookmarks": {
+      ".read": true,
+      ".write": true,
+      "$bookmark_id": {
+        ".validate": "newData.hasChildren(['title', 'url'])",
+        "title": { ".validate": "newData.isString() && newData.val().length > 0" },
+        "url": { ".validate": "newData.isString() && newData.val().length > 0" },
+        "favicon": { ".validate": "newData.isString()" },
+        "timestamp": { ".validate": "newData.isNumber()" },
+        "updatedAt": { ".validate": "newData.isNumber()" },
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}</pre>
+            <button onclick="copyRules()"><i class="fas fa-copy"></i> Copy Rules</button>
+            <p style="margin-top: 8px; font-size: 11px;">
+                <i class="fas fa-external-link-alt"></i> 
+                <a href="https://console.firebase.google.com/project/hotelg-2befa/database/hotelg-2befa-default-rtdb/rules" target="_blank" style="color: #856404;">Firebase Console</a>
+            </p>
+        </div>
+
+        <div class="input-section">
+            <div class="input-group">
+                <label><i class="fas fa-heading"></i> Title</label>
+                <input type="text" id="titleInput" placeholder="Enter website title" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-link"></i> URL</label>
+                <input type="url" id="urlInput" placeholder="https://example.com" autocomplete="off">
+            </div>
+            <!-- MANUAL FAVICON FIELD - initially hidden, only appears during edit -->
+            <div class="input-group" id="faviconGroup" style="display: none;">
+                <label><i class="fas fa-image"></i> Favicon URL (optional)</label>
+                <input type="url" id="faviconInput" placeholder="https://example.com/icon.png or leave empty for auto" autocomplete="off">
+                <div class="favicon-hint">
+                    <i class="fas fa-info-circle"></i> Leave empty = auto fetch from domain
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="add-btn" id="addBtn" onclick="addBookmark()">
+                    <i class="fas fa-plus-circle"></i> 𝗔𝗗𝗗 𝗕𝗢𝗢𝗞𝗠𝗔𝗥𝗞𝗦
+                </button>
+                <button class="cancel-btn" id="cancelBtn" onclick="cancelEdit()">
+                    <i class="fas fa-times-circle"></i> Cancel
+                </button>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search bookmarks..." autocomplete="off">
+            </div>
+            <div class="search-stats" id="searchStats"></div>
+        </div>
+
+        <div class="bookmarks-header">
+            <h2><i class="fas fa-list"></i> Your Bookmarks</h2>
+            <span class="bookmarks-count" id="bookmarkCount">0</span>
+        </div>
+
+        <!-- Scrollable Bookmarks Wrapper -->
+        <div class="bookmarks-wrapper" id="bookmarksWrapper">
+            <div class="bookmarks-list" id="bookmarksList">
+                <div class="empty-state">
+                    <i class="fas fa-bookmark"></i>
+                    <p>Loading bookmarks...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator" id="scrollIndicator">
+            <i class="fas fa-chevron-down"></i> Scroll for more <i class="fas fa-chevron-down"></i>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyC65Zkg11r825qx75FaEZMZcciLTwHZ7nU",
+            authDomain: "hotelg-2befa.firebaseapp.com",
+            databaseURL: "https://hotelg-2befa-default-rtdb.firebaseio.com",
+            projectId: "hotelg-2befa",
+            storageBucket: "hotelg-2befa.firebasestorage.app",
+            messagingSenderId: "511898248960",
+            appId: "1:511898248960:web:265005e18a0b71023035e5",
+            measurementId: "G-X9V68C7BFB"
+        };
+
+        let database, bookmarksRef;
+        let firebaseInitialized = false;
+
+        function initializeFirebase() {
+            try {
+                if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+                database = firebase.database();
+                bookmarksRef = database.ref('bookmarks');
+                firebaseInitialized = true;
+                console.log('Firebase ready');
+            } catch (error) {
+                console.error('Firebase error:', error);
+                firebaseInitialized = false;
+            }
+        }
+        initializeFirebase();
+
+        // DOM
+        const titleInput = document.getElementById('titleInput');
+        const urlInput = document.getElementById('urlInput');
+        const faviconGroup = document.getElementById('faviconGroup'); // the wrapper div
+        const faviconInput = document.getElementById('faviconInput');
+        const bookmarksWrapper = document.getElementById('bookmarksWrapper');
+        const bookmarksList = document.getElementById('bookmarksList');
+        const bookmarkCount = document.getElementById('bookmarkCount');
+        const notification = document.getElementById('notification');
+        const addBtn = document.getElementById('addBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const searchInput = document.getElementById('searchInput');
+        const searchStats = document.getElementById('searchStats');
+        const rulesFixBox = document.getElementById('rulesFixBox');
+        const scrollIndicator = document.getElementById('scrollIndicator');
+
+        let allBookmarks = [];
+        let currentSearchTerm = '';
+        let editingId = null;
+        let reconnectAttempts = 0;
+        const maxReconnectAttempts = 3;
+
+        function checkScrollIndicator() {
+            if (bookmarksWrapper.scrollHeight > bookmarksWrapper.clientHeight) {
+                scrollIndicator.classList.add('show');
+            } else {
+                scrollIndicator.classList.remove('show');
+            }
+        }
+
+        function showNotification(message, type = 'normal') {
+            notification.textContent = message;
+            notification.className = 'notification';
+            if (type === 'error') notification.classList.add('error');
+            else if (type === 'success') notification.classList.add('success');
+            else if (type === 'info') notification.classList.add('info');
+            notification.classList.add('show');
+            setTimeout(() => notification.classList.remove('show'), 3000);
+        }
+
+        window.copyRules = function() {
+            const rulesText = document.getElementById('rulesText').textContent;
+            navigator.clipboard.writeText(rulesText).then(() => {
+                showNotification('Rules copied!', 'success');
+            }).catch(() => showNotification('Copy error', 'error'));
+        };
+
+        function isValidUrl(string) {
+            try { new URL(string); return true; } catch { return false; }
+        }
+
+        // Manual favicon if valid, else auto google favicon
+        function getFinalFavicon(manualUrl, pageUrl) {
+            if (manualUrl && manualUrl.trim() !== '') {
+                if (isValidUrl(manualUrl)) return manualUrl.trim();
+                else showNotification('Invalid favicon URL, using auto', 'info');
+            }
+            try {
+                const urlObj = new URL(pageUrl);
+                return `https://www.google.com/s2/favicons?domain=${urlObj.hostname}&sz=32`;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        // ---------- EDIT MODE : show favicon field and fill it ----------
+        window.setEditMode = function(id, title, url, favicon) {
+            editingId = id;
+            titleInput.value = title;
+            urlInput.value = url;
+            // Populate favicon field (if any)
+            faviconInput.value = (favicon && favicon !== 'null' && favicon !== 'undefined') ? favicon : '';
+            // SHOW the favicon group (only in edit mode)
+            faviconGroup.style.display = 'flex';   // make visible (flex column)
+            addBtn.innerHTML = '<i class="fas fa-save"></i> Update';
+            cancelBtn.style.display = 'block';
+            showNotification('Edit mode — you can change favicon', 'info');
+        };
+
+        // ---------- CANCEL : hide favicon field and clear it ----------
+        window.cancelEdit = function() {
+            editingId = null;
+            titleInput.value = '';
+            urlInput.value = '';
+            faviconInput.value = '';
+            // HIDE favicon group when not editing
+            faviconGroup.style.display = 'none';
+            addBtn.innerHTML = '<i class="fas fa-plus-circle"></i> 𝗔𝗗𝗗 𝗕𝗢𝗢𝗞𝗠𝗔𝗥𝗞𝗦';
+            cancelBtn.style.display = 'none';
+        };
+
+        function isFirebaseReady() {
+            if (!firebaseInitialized) {
+                showNotification('Firebase not initialized. Refresh.', 'error');
+                return false;
+            }
+            return true;
+        }
+
+        window.addBookmark = async function() {
+            if (!isFirebaseReady()) return;
+
+            const title = titleInput.value.trim();
+            let url = urlInput.value.trim();
+            const manualFavicon = faviconInput.value.trim(); // only relevant in edit mode, but safe
+
+            if (!title) { showNotification('Enter title', 'error'); titleInput.focus(); return; }
+            if (!url) { showNotification('Enter URL', 'error'); urlInput.focus(); return; }
+            if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
+            if (!isValidUrl(url)) { showNotification('Invalid URL', 'error'); urlInput.focus(); return; }
+
+            const finalFavicon = getFinalFavicon(manualFavicon, url);
+
+            addBtn.disabled = true;
+            addBtn.innerHTML = '<span class="loading-spinner"></span> Saving...';
+
+            try {
+                if (editingId) {
+                    await bookmarksRef.child(editingId).update({
+                        title, url, favicon: finalFavicon, timestamp: Date.now(), updatedAt: Date.now()
+                    });
+                    showNotification('Bookmark updated!', 'success');
+                    cancelEdit(); // also hides favicon group
+                } else {
+                    await bookmarksRef.push({ title, url, favicon: finalFavicon, timestamp: Date.now() });
+                    titleInput.value = ''; urlInput.value = ''; faviconInput.value = '';
+                    // favicon group already hidden (cancel not needed after add)
+                    showNotification('Bookmark added!', 'success');
+                }
+                rulesFixBox.classList.remove('show');
+            } catch (error) {
+                console.error(error);
+                if (error.code === 'PERMISSION_DENIED') {
+                    showNotification('Permission denied! Update rules.', 'error');
+                    rulesFixBox.classList.add('show');
+                } else if (error.code === 'NETWORK_ERROR') {
+                    showNotification('Network error', 'error');
+                } else {
+                    showNotification('Error: ' + (error.message || 'Unknown'), 'error');
+                }
+            } finally {
+                addBtn.disabled = false;
+                addBtn.innerHTML = editingId ? '<i class="fas fa-save"></i> Update' : '<i class="fas fa-plus-circle"></i> 𝗔𝗗𝗗 𝗕𝗢𝗢𝗞𝗠𝗔𝗥𝗞𝗦';
+            }
+        };
+
+        window.deleteBookmark = async function(id) {
+            if (!isFirebaseReady()) return;
+            if (confirm('Delete this bookmark?')) {
+                try {
+                    await bookmarksRef.child(id).remove();
+                    if (editingId === id) cancelEdit();
+                    showNotification('Deleted!', 'success');
+                } catch { showNotification('Delete error', 'error'); }
+            }
+        };
+
+        window.visitUrl = function(url) { window.open(url, '_blank'); };
+
+        function escapeHtml(unsafe) {
+            if (!unsafe) return '';
+            return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function filterBookmarks(term) {
+            if (!term) return allBookmarks;
+            term = term.toLowerCase();
+            return allBookmarks.filter(b => (b.title && b.title.toLowerCase().includes(term)) || (b.url && b.url.toLowerCase().includes(term)));
+        }
+
+        function highlightText(text, term) {
+            if (!term || !text) return escapeHtml(text);
+            const escaped = escapeHtml(text);
+            const escapedTerm = escapeHtml(term);
+            const regex = new RegExp(`(${escapedTerm})`, 'gi');
+            return escaped.replace(regex, '<mark>$1</mark>');
+        }
+
+        function createBookmarkElement(bookmark, searchTerm) {
+            const item = document.createElement('div');
+            item.className = 'bookmark-item' + (editingId === bookmark.id ? ' editing' : '');
+            // Removed random border color - now using consistent CSS border
+
+            const faviconUrl = bookmark.favicon ? escapeHtml(bookmark.favicon) : '';
+            const safeTitle = escapeHtml(bookmark.title).replace(/'/g, "\\'");
+            const safeUrl = escapeHtml(bookmark.url).replace(/'/g, "\\'");
+            const safeFavicon = bookmark.favicon ? escapeHtml(bookmark.favicon).replace(/'/g, "\\'") : '';
+
+            const titleHtml = searchTerm ? highlightText(bookmark.title, searchTerm) : escapeHtml(bookmark.title);
+            const urlHtml = searchTerm ? highlightText(bookmark.url, searchTerm) : escapeHtml(bookmark.url);
+
+            item.innerHTML = `
+                <div class="favicon">
+                    ${faviconUrl ? 
+                        `<img src="${faviconUrl}" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'fas fa-globe\\'></i>';" alt="favicon">` : 
+                        '<i class="fas fa-globe"></i>'}
+                </div>
+                <div class="bookmark-content">
+                    <div class="bookmark-title">${titleHtml || 'Untitled'}</div>
+                    <div class="bookmark-url">${urlHtml}</div>
+                </div>
+                <div class="bookmark-actions">
+                    <button class="edit-btn" onclick="setEditMode('${bookmark.id}', '${safeTitle}', '${safeUrl}', '${safeFavicon}')" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="visit-btn" onclick="visitUrl('${escapeHtml(bookmark.url)}')" title="Visit">
+                        <i class="fas fa-external-link-alt"></i>
+                    </button>
+                    <button class="delete-btn" onclick="deleteBookmark('${bookmark.id}')" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            return item;
+        }
+
+        function updateBookmarksList(snapshot) {
+            try {
+                const bookmarks = snapshot.val();
+                if (!bookmarks) {
+                    allBookmarks = [];
+                    bookmarksList.innerHTML = `<div class="empty-state"><i class="fas fa-bookmark"></i><p>No bookmarks yet. Add your first bookmark!</p></div>`;
+                    bookmarkCount.textContent = '0';
+                    updateSearchStats();
+                    checkScrollIndicator();
+                    return;
+                }
+
+                allBookmarks = Object.entries(bookmarks).map(([id, b]) => ({ id, ...b })).sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
+
+                const filtered = filterBookmarks(currentSearchTerm);
+                bookmarksList.innerHTML = '';
+
+                if (filtered.length === 0 && currentSearchTerm) {
+                    bookmarksList.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><p>No bookmarks match "${currentSearchTerm}"</p></div>`;
+                } else if (filtered.length === 0) {
+                    bookmarksList.innerHTML = `<div class="empty-state"><i class="fas fa-bookmark"></i><p>No bookmarks yet. Add your first bookmark!</p></div>`;
+                } else {
+                    filtered.forEach(b => bookmarksList.appendChild(createBookmarkElement(b, currentSearchTerm)));
+                }
+
+                bookmarkCount.textContent = allBookmarks.length;
+                updateSearchStats(filtered.length);
+                setTimeout(checkScrollIndicator, 100);
+                rulesFixBox.classList.remove('show');
+            } catch (e) { console.error(e); }
+        }
+
+        function updateSearchStats(filteredCount) {
+            if (!currentSearchTerm) { searchStats.textContent = ''; return; }
+            if (filteredCount === undefined) filteredCount = filterBookmarks(currentSearchTerm).length;
+            searchStats.innerHTML = `<span class="search-match">${filteredCount} matches</span> for "${currentSearchTerm}"`;
+        }
+
+        let searchTimeout;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                currentSearchTerm = e.target.value.trim();
+                if (currentSearchTerm) {
+                    const filtered = filterBookmarks(currentSearchTerm);
+                    bookmarksList.innerHTML = '';
+                    if (filtered.length === 0) {
+                        bookmarksList.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><p>No bookmarks match "${currentSearchTerm}"</p></div>`;
+                    } else {
+                        filtered.forEach(b => bookmarksList.appendChild(createBookmarkElement(b, currentSearchTerm)));
+                    }
+                    updateSearchStats(filtered.length);
+                } else {
+                    if (allBookmarks.length > 0) {
+                        bookmarksList.innerHTML = '';
+                        allBookmarks.forEach(b => bookmarksList.appendChild(createBookmarkElement(b, '')));
+                    } else {
+                        bookmarksList.innerHTML = `<div class="empty-state"><i class="fas fa-bookmark"></i><p>No bookmarks yet.</p></div>`;
+                    }
+                    updateSearchStats();
+                }
+                checkScrollIndicator();
+            }, 300);
+        });
+
+        bookmarksWrapper.addEventListener('scroll', () => {
+            if (bookmarksWrapper.scrollTop > 10) scrollIndicator.classList.remove('show');
+        });
+
+        if (bookmarksRef) {
+            bookmarksRef.on('value', updateBookmarksList, (error) => {
+                console.error(error);
+                if (error.code === 'PERMISSION_DENIED') {
+                    rulesFixBox.classList.add('show');
+                    bookmarksList.innerHTML = `<div class="empty-state"><i class="fas fa-lock"></i><p>Permission denied. Update rules.</p></div>`;
+                } else {
+                    bookmarksList.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>DB connection error</p></div>`;
+                }
+            });
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter' && !addBtn.disabled) addBookmark();
+        }
+        titleInput.addEventListener('keypress', handleKeyPress);
+        urlInput.addEventListener('keypress', handleKeyPress);
+        faviconInput.addEventListener('keypress', handleKeyPress);
+
+        function testFirebaseConnection() {
+            if (!bookmarksRef) return;
+            bookmarksRef.once('value').then(() => {
+                rulesFixBox.classList.remove('show');
+                reconnectAttempts = 0;
+            }).catch((error) => {
+                if (error.code === 'PERMISSION_DENIED') {
+                    rulesFixBox.classList.add('show');
+                    if (reconnectAttempts < maxReconnectAttempts) {
+                        reconnectAttempts++;
+                        setTimeout(testFirebaseConnection, 5000);
+                    }
+                }
+            });
+        }
+        setTimeout(testFirebaseConnection, 2000);
+
+        // initial hidden state for favicon group
+        faviconGroup.style.display = 'none';
+    </script>
+</body>
+</html>
